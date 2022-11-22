@@ -5,7 +5,7 @@ import userRouter from './routes/users'
 import indexRouter from './routes/index'
 import {db} from './config'
 import adminRouter from './routes/admin'
-import vendorsRoute from './routes/vendor'
+import vendorsRouter from './routes/vendor'
 
 
 //sequelize connection
