@@ -6,7 +6,7 @@ import indexRouter from './routes/index'
 import {db} from './config'
 import adminRouter from './routes/admin'
 import vendorsRouter from './routes/vendor'
-
+import dotenv from 'dotenv'
 
 //sequelize connection
 db.sync().then(()=>{
@@ -14,6 +14,8 @@ db.sync().then(()=>{
 }).catch( err=>{
     console.log(err)
 })
+
+dotenv.config()
 
 const app = expresss()
 

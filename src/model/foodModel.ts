@@ -10,8 +10,10 @@ export interface FoodAttribute{
     price: number;
     foodType:string;
     readyTime: number;
+    image: string;
     rating: number;
     vendorId:string
+    
 
     
 }
@@ -45,6 +47,10 @@ FoodInstance.init({
         allowNull: true
     },
     foodType: {
+        type:DataTypes.STRING,
+        allowNull: false,
+    },
+    image: {
         type:DataTypes.STRING,
         allowNull: false,
     },

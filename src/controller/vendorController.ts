@@ -2,10 +2,10 @@ import express, { Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { FoodAttribute, FoodInstance } from "../model/foodModel";
 import { vendorAttribute, VendorInstance } from "../model/vendorModel";
-import { GenerateSignature, loginSchema, option, validatePassword } from "../utils/utility";
+import { GenerateSignature, loginSchema, option, updateVendorSchema, validatePassword } from "../utils/utility";
 import {v4 as uuidv4} from "uuid"
 
-
+/**========VENDOR LOGIN==========`*/
 export const vendorLogin =async (req: Request, res:Response) =>{
 
         try {
@@ -87,6 +87,7 @@ export const createFood = async (req:JwtPayload, res: Response) =>{
                 foodType,
                 readyTime,
                 price,
+                image:req.file.path,
                 rating: 0,
                 vendorId: id
                
@@ -138,6 +139,7 @@ export const VendorProfile = async (req:JwtPayload, res:Response)=>{
 
 
     } catch (error) {
+        console.log(error)
        
         return res.status(500).json({
                 Error: "internal Server Error",
@@ -182,3 +184,64 @@ try {
 
 
 }
+
+
+/**=======update Vendor =============== */
+
+export const updateVendorProfile = async (
+    req: JwtPayload | any,
+    res: Response
+  ) => {
+    try {
+      const id = req.vendor.id;
+      const { name, phone, address, coverImage } = req.body;
+  
+      const validateResult = updateVendorSchema.validate(req.body, option);
+      if (validateResult.error) {
+        return res.status(400).json({
+          Error: validateResult.error.details[0].message,
+        });
+      }
+  
+      //check if its a reg user
+      const Vendor = (await VendorInstance.findOne({
+        where: { id: id },
+      })) as unknown as vendorAttribute;
+  
+      if (!Vendor) {
+        return res.status(400).json({
+          Error: "you are not authorised to update your profile",
+        });
+      }
+  
+      const updatedVendor = (await VendorInstance.update(
+        {
+          name,
+          coverImage:req.file.path,
+          address,
+          phone,
+        },
+        { where: { id: id } }
+      )) as unknown as vendorAttribute;
+  
+      if (updatedVendor) {
+        const Vendor = (await VendorInstance.findOne({
+          where: { id: id },
+        })) as unknown as vendorAttribute;
+  
+        return res.status(200).json({
+          message: "u have succesfully updated your profile",
+          Vendor,
+        });
+      }
+      return res.status(500).json({
+        message: "Error Occured",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        Error: "internal Serer Error",
+        route: "/users/update-profile",
+      });
+    }
+  };
+  

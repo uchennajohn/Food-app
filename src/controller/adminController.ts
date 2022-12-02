@@ -215,7 +215,7 @@ export const createVendor =async(req: JwtPayload, res: Response)=>{
 try {
     const id = req.user.id
 const { name,
-        ownerName,
+        restaurantName,
         pincode,
         email,
         password,
@@ -253,7 +253,7 @@ const { name,
           id: uuidvendor,
           email,
           password: vendorPassword,
-          ownerName,
+          restaurantName,
           pincode,
           name,
           salt,
@@ -261,7 +261,8 @@ const { name,
           phone,
           serviceAvailable: false,
           rating: 0,
-          role: "vendor"
+          role: "vendor",
+          coverImage: ''
       })
 
      return res.status(201).json({

@@ -83,7 +83,7 @@ export const authVendor = async (req:JwtPayload, res:Response, next: NextFunctio
                where: {id:id}
            }) as unknown  as vendorAttribute   
          
-                                                                       // middelware structure is the same across databases, except for the method
+        // middelware structure is the same across databases, except for the method
            if(!vendor) {
                return res.status(401).json({
                    Error:"invalid Credentials"

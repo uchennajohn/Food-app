@@ -6,7 +6,7 @@ export interface vendorAttribute{
     
     id: string;
     name:string;
-    ownerName:string;
+    restaurantName:string;
     pincode: string
     email: string;
     password: string;
@@ -16,6 +16,7 @@ export interface vendorAttribute{
     phone: string;
     rating: number;
     role: string;
+    coverImage: string;
     
 }
 //export the instance to use in checking if user exist
@@ -46,7 +47,7 @@ VendorInstance.init({
             notEmpty:{ msg: 'provide a password'}
         }
     },
-    ownerName:{
+    restaurantName:{
         type:DataTypes.STRING,
         allowNull: true,
     },
@@ -89,6 +90,10 @@ VendorInstance.init({
         allowNull: true,
     },
     role:{
+        type:DataTypes.STRING,
+        allowNull: true,
+    },
+    coverImage:{
         type:DataTypes.STRING,
         allowNull: true,
     }
